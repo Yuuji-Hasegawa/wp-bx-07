@@ -1,6 +1,6 @@
 <?php get_header();?>
-<div class="c-puton c-puton--filter">
-  <picture class="o-frame o-frame--switch-l">
+<div class="c-puton c-puton--filter js-pull-view">
+  <picture class="o-frame o-frame--switch-l  c-scale-anime">
     <source type="image/avif"
       srcset="<?php echo get_template_directory_uri();?>/img/hero.avif" />
     <source type="image/webp"
@@ -16,14 +16,42 @@
     </h1>
   </div>
 </div>
-<div class="o-box o-box--transparent u-bg-qua u-pb-2xl">
+<div class="o-switcher o-switcher--gap-none u-bg-qua js-pull-view">
+  <div class="o-cover">
+    <div class="o-cover__middle o-stack o-stack--l c-inner-box c-inner-box--max-content">
+      <h2 class="o-stack js-fade-up">
+        <span class="c-display-l u-text-weight-b u-font-en-con">About Us</span>
+        <span class="c-display-xs"><span class="u-font-logo">BLUE B NOSE</span>について</span>
+      </h2>
+      <p class="c-content-l js-fade-up">
+        あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波。またそのなかでいっしょになったたくさんのひとたち、ファゼーロとロザーロ、羊飼のミーロや、顔の赤いこどもたち、地主のテーモ
+      </p>
+    </div>
+  </div>
+  <div>
+    <picture class="o-frame">
+      <source type="image/avif"
+        srcset="<?php echo get_template_directory_uri();?>/img/dummy-img01.avif" />
+      <source type="image/webp"
+        srcset="<?php echo get_template_directory_uri();?>/img/dummy-img01.webp" />
+      <img
+        src="<?php echo get_template_directory_uri();?>/img/dummy-img01.jpg"
+        width="100%" height="100%" decoding="async" fetchpriority="high" alt="" />
+    </picture>
+  </div>
+</div>
+<div class="o-box o-box--transparent u-bg-primary u-pb-2xl js-pull-view">
   <div class="o-center o-center--content">
-    <h2 class="c-sec-heading u-text-center u-text-weight-b u-font-en">Information</h2>
+    <h2 class="c-sec-heading u-text-center u-text-weight-b u-font-en-con">NEWS</h2>
     <?php echo get_front_news();?>
   </div>
 </div>
+<div class="o-box o-box--transparent o-center u-bg-qua u-pb-2xl js-pull-view">
+  <h2 class="c-sec-heading u-text-center u-text-weight-b u-font-en-con">PRODUCT</h2>
+  <?php echo get_front_product();?>
+</div>
 <div class="o-center u-pb-2xl">
-  <h2 class="c-sec-heading u-text-center u-text-weight-b u-font-en">What's New</h2>
+  <h2 class="c-sec-heading u-text-center u-text-weight-b u-font-en-con">What's New</h2>
   <?php if (have_posts()):?>
   <ul class="o-grid o-grid--tri u-mb-xl">
     <?php while (have_posts()): the_post();?>

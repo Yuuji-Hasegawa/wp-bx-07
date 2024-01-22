@@ -11,27 +11,31 @@
   </picture>
   <div class="c-puton__inner o-cover">
     <h1 class="c-hero-copy o-cover__middle">
-      <span class="c-display-l u-text-weight-b u-font-en-con">News</span>
-      <span class="c-display-xs">お知らせ</span>
+      <span class="c-display-l u-text-weight-b u-font-en-con">Product</span>
+      <span class="c-display-xs">商品一覧</span>
     </h1>
   </div>
 </div>
-<div class="o-box o-box--transparent o-center u-bg-qua u-pt-2xl u-pb-2xl">
+<div class="o-box o-box--transparent o-center u-pt-2xl u-pb-2xl js-pull-view">
   <?php if (have_posts()):?>
-  <ul class="o-stack o-stack--m">
+  <ul class="o-grid o-grid--tri">
     <?php while (have_posts()): the_post();?>
-    <li class="o-sidebar js-fade-up">
-      <time class="c-content-l u-font-en-con u-text-weight-b"
-        datetime="<?php the_time('Y-m-d');?>"><?php the_time('Y.m.d');?></time>
-      <a class="o-sidebar__grow o-sidebar__grow--news c-content-l c-text-link u-text-weight-b"
+    <li>
+      <a class="c-puton c-puton--filter c-pict-link"
         href="<?php the_permalink();?>">
-        <?php the_title();?>
+        <?php echo get_thumb_sq();?>
+        <div class="c-puton__inner o-cover u-text-white">
+          <div class="u-text-center u-block-bottom u-pr-m u-pl-m">
+            <span
+              class="c-display-xs u-text-weight-b"><?php the_title();?></span>
+          </div>
+        </div>
       </a>
     </li>
     <?php endwhile;?>
   </ul>
   <?php else:?>
-  <p class="c-content-l">ニュースはまだありません。</p>
+  <p class="c-content-l">商品はまだありません。</p>
   <?php endif;
 echo get_pagination();?>
 </div>

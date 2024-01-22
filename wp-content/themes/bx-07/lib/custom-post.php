@@ -36,11 +36,31 @@ function create_post_type()
           'supports' => array('title','editor')
         )
     );
+    register_post_type(
+        'product',
+        array(
+      'labels' => array(
+          'name' => '商品',
+          'singular_name' => '商品',
+          'add_new_item' => '商品の新規追加',
+          'edit_item' => '商品の編集'
+      ),
+      'hierarchical' => false,
+      'public' => true,
+      'menu_position' => 10,
+      'has_archive' => true,
+      'menu_icon'   => 'dashicons-cart',
+      'rewrite' => array('with_front' => false),
+      'supports' => array('title','editor','thumbnail')
+      )
+    );
 }
 function custom_post_type_link($link, $post)
 {
     if ($post->post_type === 'news') {
         return home_url('/news/' . $post->ID . '/');
+    } elseif ($post->post_type === 'product') {
+        return home_url('/product/' . $post->ID);
     } else {
         return $link;
     }
@@ -54,6 +74,14 @@ function news_rewrite_rules_array($rules)
     return $new_rewrite_rules + $rules;
 }
 add_filter('rewrite_rules_array', 'news_rewrite_rules_array');
+function product_rewrite_rules_array($rules)
+{
+    $product_rewrite_rules = array(
+      'product/([0-9]+)/?$' => 'index.php?post_type=product&p=$matches[1]',
+    );
+    return $product_rewrite_rules + $rules;
+}
+add_filter('rewrite_rules_array', 'product_rewrite_rules_array');
 function post_has_archive($args, $post_type)
 {
     if ('post' == $post_type) {
@@ -66,9 +94,10 @@ add_filter('register_post_type_args', 'post_has_archive', 10, 2);
 
 function add_my_box()
 {
-    $addtype = array( 'post', 'page', 'news');
+    $addtype = array( 'post', 'page', 'news', 'product');
     add_meta_box('meta_info', 'SEO', 'meta_info_form', $addtype, 'side');
     add_meta_box('meta_blogs', '追加情報', 'meta_blogs_form', 'post', 'normal');
+    add_meta_box('meta_product', '商品情報', 'meta_product_form', 'product', 'normal');
 }
 add_action('admin_menu', 'add_my_box');
 
@@ -138,6 +167,17 @@ function meta_blogs_form()
 <?php
 }
 
+function meta_product_form()
+{
+    global $post;
+    $product_price = get_post_meta($post->ID, 'product_price', true); ?>
+<h3 style="font-size: 14px; margin: 0 0 8px;">価格（税込価格を数値で入力してください）</h3>
+<input type="text" name="product_price"
+  value="<?php echo esc_html($product_price); ?>"
+  style="width: 100%;margin: 0 0 8px;" />
+<?php
+}
+
 function save_meta_info($post_id)
 {
     if (isset($_POST['meta_keywords'])) {
@@ -169,6 +209,11 @@ function save_meta_info($post_id)
         update_post_meta($post_id, 'recommend_heading', $_POST['recommend_heading']);
     } else {
         delete_post_meta($post_id, 'recommend_heading');
+    }
+    if (isset($_POST['product_price'])) {
+        update_post_meta($post_id, 'product_price', $_POST['product_price']);
+    } else {
+        delete_post_meta($post_id, 'product_price');
     }
 }
 add_action('save_post', 'save_meta_info');
